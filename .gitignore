@@ -6,3 +6,4 @@ shipstation.egg-info
 .idea
 build/lib/*
 
+venv

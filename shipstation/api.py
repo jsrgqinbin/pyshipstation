@@ -27,12 +27,12 @@ class ShipStationBase(object):
 
 class ShipStationCustomsItem(ShipStationBase):
     def __init__(
-        self,
-        description=None,
-        quantity=1,
-        value=Decimal("0"),
-        harmonized_tariff_code=None,
-        country_of_origin=None,
+            self,
+            description=None,
+            quantity=1,
+            value=Decimal("0"),
+            harmonized_tariff_code=None,
+            country_of_origin=None,
     ):
         self.description = description
         self.quantity = quantity
@@ -130,15 +130,15 @@ class ShipStationContainer(ShipStationBase):
 
 class ShipStationItem(ShipStationBase):
     def __init__(
-        self,
-        key=None,
-        sku=None,
-        name=None,
-        image_url=None,
-        quantity=None,
-        unit_price=None,
-        warehouse_location=None,
-        options=None,
+            self,
+            key=None,
+            sku=None,
+            name=None,
+            image_url=None,
+            quantity=None,
+            unit_price=None,
+            warehouse_location=None,
+            options=None,
     ):
         self.key = key
         self.sku = sku
@@ -167,18 +167,18 @@ class ShipStationItem(ShipStationBase):
 
 class ShipStationAddress(ShipStationBase):
     def __init__(
-        self,
-        name=None,
-        company=None,
-        street1=None,
-        street2=None,
-        street3=None,
-        city=None,
-        state=None,
-        postal_code=None,
-        country=None,
-        phone=None,
-        residential=None,
+            self,
+            name=None,
+            company=None,
+            street1=None,
+            street2=None,
+            street3=None,
+            city=None,
+            state=None,
+            postal_code=None,
+            country=None,
+            phone=None,
+            residential=None,
     ):
         self.name = name
         self.company = company
@@ -350,6 +350,24 @@ class ShipStationOrder(ShipStationBase):
         return d
 
 
+class ShipStationMarkShipped(ShipStationBase):
+    def __init__(
+            self,
+            order_id=None,
+            carrier_code=None,
+            ship_date=None,
+            tracking_number=None,
+            notify_customer=None,
+            notify_sales_channel=None
+    ):
+        self.order_id = order_id
+        self.carrier_code = carrier_code
+        self.ship_date = ship_date
+        self.tracking_number = tracking_number
+        self.notify_customer = notify_customer
+        self.notify_sales_channel = notify_sales_channel
+
+
 class ShipStation(ShipStationBase):
     """
     Handles the details of connecting to and querying a ShipStation account.
@@ -401,6 +419,9 @@ class ShipStation(ShipStationBase):
 
     def get_orders(self):
         return self.orders
+
+    def mark_order_shipped(self, mark_order_shipped_param):
+        self.post(endpoint="/orders/markasshipped", data=json.dumps(mark_order_shipped_param.as_dict()))
 
     def submit_orders(self):
         for order in self.orders:
